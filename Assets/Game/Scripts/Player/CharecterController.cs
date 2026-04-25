@@ -63,9 +63,9 @@ public class CharecterController : MonoBehaviour, ICharacterController
 		Vector3 moveInput = PlayerInputsData.MoveInput;
 
 
-		Vector3 worldInput = motor.CharacterForward * moveInput.z +
-							 motor.CharacterRight * moveInput.x;
-
+		Vector3 worldInput = 
+			motor.CharacterForward * moveInput.z +
+			motor.CharacterRight * moveInput.x;
 
 		Vector3 targetDirection;
 		if (motor.GroundingStatus.IsStableOnGround)

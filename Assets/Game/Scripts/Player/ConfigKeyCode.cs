@@ -1,17 +1,39 @@
 using UnityEngine;
 
-public class ConfigKeyCode : MonoBehaviour
+public struct KeysCodes
 {
-	public static KeyCode
-		Forward = KeyCode.W,
-		Back = KeyCode.S,
-		Left = KeyCode.A,
-		Right = KeyCode.D,
-		Interaction = KeyCode.E,
-		OpenInventory = KeyCode.F,
-		Stels = KeyCode.LeftShift,
-		Sprint = KeyCode.LeftAlt,
-		Jump = KeyCode.Space;
+	public KeyCode
+		Forward,
+		Back,
+		Left,
+		Right,
+		Interaction ,
+		OpenInventory,
+		Stels,
+		Sprint,
+		Jump;
 
-	public static Vector2 SentityMause = Vector2.one;
+	public Vector2 SentityMause;
+}
+
+public static class ConfigKeyCode
+{
+	public static KeysCodes Current, Default;
+
+	static ConfigKeyCode()
+	{
+		Default.Forward = KeyCode.W;
+		Default.Back = KeyCode.S;
+		Default.Left = KeyCode.A;
+		Default.Right = KeyCode.D;
+		Default.Interaction = KeyCode.E;
+		Default.OpenInventory = KeyCode.F;
+		Default.Stels = KeyCode.LeftShift;
+		Default.Sprint = KeyCode.LeftAlt;
+		Default.Jump = KeyCode.Space;
+
+		Default.SentityMause = Vector2.one;
+
+		Current = Default;
+	}
 }
