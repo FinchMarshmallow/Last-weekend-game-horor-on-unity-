@@ -7,11 +7,12 @@ public struct KeysCodes
 		Back,
 		Left,
 		Right,
-		Interaction ,
+		Interaction,
 		OpenInventory,
 		Stels,
 		Sprint,
-		Jump;
+		Jump,
+		Pause;
 
 	public Vector2 SentityMause;
 }
@@ -27,12 +28,13 @@ public static class ConfigKeyCode
 		Default.Left = KeyCode.A;
 		Default.Right = KeyCode.D;
 		Default.Interaction = KeyCode.E;
-		Default.OpenInventory = KeyCode.F;
+		Default.OpenInventory = KeyCode.Tab;
 		Default.Stels = KeyCode.LeftShift;
 		Default.Sprint = KeyCode.LeftAlt;
 		Default.Jump = KeyCode.Space;
+		Default.Pause = KeyCode.Escape;
 
-		Default.SentityMause = Vector2.one;
+		Default.SentityMause = Vector2.one * 0.5f;
 
 		Current = Default;
 	}

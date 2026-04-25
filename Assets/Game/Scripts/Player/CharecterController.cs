@@ -56,7 +56,7 @@ public class CharecterController : MonoBehaviour, ICharacterController
 
 		if (!motor.GroundingStatus.IsStableOnGround)
 		{
-			currentVelocity += (Vector3.up * gravity * deltaTime);
+			currentVelocity += (Vector3.up * gravity * deltaTime / multySpeedDrop);
 			moveMultiplier = multySpeedDrop;
 		}
 
