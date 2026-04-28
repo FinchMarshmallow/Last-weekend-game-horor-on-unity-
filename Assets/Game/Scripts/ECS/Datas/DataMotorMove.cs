@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum TypeMotorMove
@@ -8,6 +9,7 @@ public enum TypeMotorMove
 	Squat = 3,
 }
 
+[Serializable]
 public class DataMotorMove : BaseData
 {
 	public float 

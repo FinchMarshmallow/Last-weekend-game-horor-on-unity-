@@ -2,9 +2,10 @@ using KinematicCharacterController;
 using System;
 using UnityEngine;
 
+[Serializable]
 public class DataMotor : BaseData, ICharacterController
 {
-	[NonSerialized] public KinematicCharacterMotor _motor;
+	[NonSerialized] public KinematicCharacterMotor Motor;
 
 	public event Func<Quaternion, float, Quaternion> HandlerUpdateRotation;
 	public event Func<Vector3, float, Vector3> HandlerUpdateVelocity;
@@ -17,8 +18,8 @@ public class DataMotor : BaseData, ICharacterController
 
 	public override void Init(Entity entity)
 	{
-		entity.TryGetComponent(out _motor);
-		_motor.CharacterController = this;
+		entity.TryGetComponent(out Motor);
+		Motor.CharacterController = this;
 	}
 
 	// This is called when the motor wants to know what its rotation should be right now

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class SystemMotorFallUnderGround : BaseSystem
 {
 	private Dictionary<Entity, Func<Collider, bool>> _handlers = new();
@@ -28,7 +29,9 @@ public class SystemMotorFallUnderGround : BaseSystem
 
 		Func<Collider, bool> handler = (collider) =>
 		{
-			return (collider.gameObject.layer & fallData.MaskImpassable) != 0;
+			int layerBit = (int)Math.Pow(2, collider.gameObject.layer);
+			//Debug.Log($"layerBit: {layerBit}, gameObject: {(collider.gameObject.layer)}, fallData: {fallData.MaskImpassable.value}, &: {collider.gameObject.layer & fallData.MaskImpassable} bit & {layerBit & fallData.MaskImpassable}");
+			return (layerBit & fallData.MaskImpassable) != 0;
 		};
 
 		_handlers[entity] = handler;
