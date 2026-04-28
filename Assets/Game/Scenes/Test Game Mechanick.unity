@@ -998,6 +998,7 @@ GameObject:
   - component: {fileID: 131574145}
   - component: {fileID: 131574144}
   - component: {fileID: 131574143}
+  - component: {fileID: 131574146}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1033,11 +1034,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf8778a762eb0d5409c59044b5ecc9d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharecterController
-  motor: {fileID: 131574144}
   speedMove: 8
   stable: 40
-  gravity: -30
+  gravity: -60
   multySpeedDrop: 0.2
+  multySpeedSquat: 0.3
+  multySpeedSprint: 2
+  IsSquat: 0
 --- !u!114 &131574144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1103,6 +1106,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &131574146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131574141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c0472c589e8d549a0a94e17045dc80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharecterSquat
+  eyesPoint: {fileID: 712844553}
+  meshRoot: {fileID: 316030543}
+  heightSquat: 1
+  eyesOffest: {x: 0, y: -0.7, z: 0}
+  rootSquatOffest: {x: 0, y: 0, z: 0}
+  scaleRootSquat: {x: 1, y: 0.7, z: 1}
 --- !u!1 &167402055
 GameObject:
   m_ObjectHideFlags: 0

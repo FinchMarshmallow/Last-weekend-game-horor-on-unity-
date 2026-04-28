@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class CharecterController : MonoBehaviour, ICharacterController
 {
-	[SerializeField] private KinematicCharacterMotor motor;
+	private KinematicCharacterMotor _motor;
 
-	[SerializeField] private float speedMove, stable, gravity, multySpeedDrop;
+	[SerializeField] private float speedMove, stable, gravity, multySpeedDrop, multySpeedSquat, multySpeedSprint;
+
+	public bool IsSquat;
 
 	private void Start()
 	{
-		motor.CharacterController = this;
+		TryGetComponent(out _motor);
+		_motor.CharacterController = this;
 	}
 
 	public void AfterCharacterUpdate(float deltaTime)
@@ -54,7 +57,7 @@ public class CharecterController : MonoBehaviour, ICharacterController
 	{
 		float moveMultiplier = 1f;
 
-		if (!motor.GroundingStatus.IsStableOnGround)
+		if (!_motor.GroundingStatus.IsStableOnGround)
 		{
 			currentVelocity += (Vector3.up * gravity * deltaTime / multySpeedDrop);
 			moveMultiplier = multySpeedDrop;
@@ -64,18 +67,21 @@ public class CharecterController : MonoBehaviour, ICharacterController
 
 
 		Vector3 worldInput = 
-			motor.CharacterForward * moveInput.z +
-			motor.CharacterRight * moveInput.x;
+			_motor.CharacterForward * moveInput.z +
+			_motor.CharacterRight * moveInput.x;
 
 		Vector3 targetDirection;
-		if (motor.GroundingStatus.IsStableOnGround)
+		if (_motor.GroundingStatus.IsStableOnGround)
 		{
-			targetDirection = motor.GetDirectionTangentToSurface(worldInput,  motor.GroundingStatus.GroundNormal).normalized;
+			targetDirection = _motor.GetDirectionTangentToSurface(worldInput,  _motor.GroundingStatus.GroundNormal).normalized;
 		}
 		else
 		{
 			targetDirection = worldInput.normalized;
 		}
+
+		if (IsSquat) moveMultiplier *= multySpeedSquat;
+		else if(PlayerInputsData.IsSprint) moveMultiplier *= multySpeedSprint;
 
 		Vector3 targetVelocity = targetDirection * speedMove * moveMultiplier;
 

@@ -9,6 +9,9 @@ public class PlayerInputHandler : MonoBehaviour
 
 	private void Update()
 	{
+		if (PlayerInputsData.IsPause)
+			return;
+
 		PlayerInputsData.RotationHead = Input.mousePositionDelta * ConfigKeyCode.Current.SentityMause;
 
 		Vector3 move = Vector3.zero;
@@ -24,5 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
 			move = move.normalized;
 
 		PlayerInputsData.MoveInput = move;
+
+		PlayerInputsData.IsSprint = Input.GetKey(ConfigKeyCode.Current.Sprint);
 	}
 }

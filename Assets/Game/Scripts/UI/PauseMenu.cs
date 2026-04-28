@@ -11,14 +11,14 @@ public class PauseMenu : MonoBehaviour
 	{
 		IsPause = true;
 		open?.Invoke();
-		PlayerInputsData.IsRotationHead = false;
+		PlayerInputsData.IsPause = true;
 	}
 
 	public void ClosePause()
 	{
 		IsPause = false;
 		close?.Invoke();
-		PlayerInputsData.IsRotationHead = true;
+		PlayerInputsData.IsPause = false;
 	}
 
 	private void Update()

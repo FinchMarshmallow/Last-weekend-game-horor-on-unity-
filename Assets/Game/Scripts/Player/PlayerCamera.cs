@@ -12,7 +12,7 @@ public class PlayerCamera : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		if (!PlayerInputsData.IsRotationHead)
+		if (!PlayerInputsData.IsRotationHead || PlayerInputsData.IsPause)
 			return;
 
 		Vector3 currentUp = Vector3.up;
