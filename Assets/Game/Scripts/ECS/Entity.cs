@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,13 +6,26 @@ public class Entity : MonoBehaviour
 {
 	public TagEntity Tag;
 
-	[HideInInspector] public Rigidbody2D Rb;
+	[NonSerialized] public Rigidbody2D Rb;
 	[SerializeReference, SubclassSelector] public List<BaseData> Datas;
+
+	private void Awake()
+	{
+		InitDatas();
+		TryGetComponent(out Rb);
+	}
 
 	private void Start()
 	{
-		TryGetComponent(out Rb);
 		World.AddEntity(this);
+	}
+
+	private void InitDatas()
+	{
+		for (int i = 0; i < Datas.Count; i++)
+		{
+			Datas[i].Init(this);
+		}
 	}
 
 	public bool TryGetDataByID<T>(out T data) where T : BaseData

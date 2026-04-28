@@ -1,9 +1,16 @@
+using System;
 using System.Collections.Generic;
 
 public abstract class Filter
 {
 	public virtual void AddEntity(Entity entity) { }
 	public virtual void RemoveEntity(Entity entity) { }
+
+	public virtual event Action<Entity> HandlerAddEntity;
+	public virtual event Action<Entity> HandlerBeforeRemoveEntity;
+
+	protected void OnAddEntity(Entity entity) => HandlerAddEntity?.Invoke(entity);
+	protected void BeforeOnRemoveEntity(Entity entity) => HandlerBeforeRemoveEntity?.Invoke(entity);
 }
 
 public class Filter<A> : Filter
@@ -33,6 +40,8 @@ public class Filter<A> : Filter
 			_entities.Add(entity);
 			_a.Add(a);
 		}
+
+		OnAddEntity(entity);
 	}
 
 	public override void RemoveEntity(Entity entity)
@@ -42,11 +51,13 @@ public class Filter<A> : Filter
 
 		int removeI = _entities.FindIndex(a => a.GetInstanceID() == entity.GetInstanceID());
 
-		if (removeI != -1)
+		if (removeI == -1)
 			return;
 
+		BeforeOnRemoveEntity(entity);
 		_entities.RemoveAt(removeI);
 		_a.RemoveAt(removeI);
+
 	}
 }
 
@@ -83,6 +94,8 @@ public class Filter<A, B> : Filter
 			_a.Add(a);
 			_b.Add(b);
 		}
+
+		OnAddEntity(entity);
 	}
 
 	public override void RemoveEntity(Entity entity)
@@ -92,8 +105,10 @@ public class Filter<A, B> : Filter
 
 		int removeI = _entities.FindIndex(a => a.GetInstanceID() == entity.GetInstanceID());
 
-		if (removeI != -1)
+		if (removeI == -1)
 			return;
+
+		BeforeOnRemoveEntity(entity);
 
 		_entities.RemoveAt(removeI);
 		_a.RemoveAt(removeI);
@@ -140,6 +155,8 @@ public class Filter<A, B, C> : Filter
 			_b.Add(b);
 			_c.Add(c);
 		}
+
+		OnAddEntity(entity);
 	}
 
 	public override void RemoveEntity(Entity entity)
@@ -149,8 +166,10 @@ public class Filter<A, B, C> : Filter
 
 		int removeI = _entities.FindIndex(a => a.GetInstanceID() == entity.GetInstanceID());
 
-		if (removeI != -1)
+		if (removeI == -1)
 			return;
+
+		BeforeOnRemoveEntity(entity);
 
 		_entities.RemoveAt(removeI);
 		_a.RemoveAt(removeI);
@@ -204,6 +223,9 @@ public class Filter<A, B, C, D> : Filter
 			_c.Add(c);
 			_d.Add(d);
 		}
+
+		OnAddEntity(entity);
+
 	}
 
 	public override void RemoveEntity(Entity entity)
@@ -213,8 +235,10 @@ public class Filter<A, B, C, D> : Filter
 
 		int removeI = _entities.FindIndex(a => a.GetInstanceID() == entity.GetInstanceID());
 
-		if (removeI != -1)
+		if (removeI == -1)
 			return;
+
+		BeforeOnRemoveEntity(entity);
 
 		_entities.RemoveAt(removeI);
 		_a.RemoveAt(removeI);
