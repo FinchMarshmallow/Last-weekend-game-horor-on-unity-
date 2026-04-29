@@ -52,6 +52,9 @@ public class World : MonoBehaviour
 
 	public static void AddEntity(Entity entity)
 	{
+		if (Entities.Contains(entity))
+			return;
+
 		Entities.Add(entity);
 
 		for (int i = 0; i < _init._filters.Count; i++)
@@ -62,6 +65,9 @@ public class World : MonoBehaviour
 
 	public static void RemoveEntity(Entity entity)
 	{
+		if (Entities.Contains(entity))
+			return;
+
 		Entities.Remove(entity);
 
 		for(int i = 0; i < _init._filters.Count; i++)

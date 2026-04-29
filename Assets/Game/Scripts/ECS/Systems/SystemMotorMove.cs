@@ -13,7 +13,6 @@ public class SystemMotorMove : BaseSystem
 	public List<DataMotorMove> _moves;
 
 	private Filter<DataMotor, DataMoveInput, DataMotorMove> _filter;
-	public event Func<Vector3, float, Vector3> HandlerUpdateVelocity;
 
 	public override void Init()
 	{
@@ -104,8 +103,6 @@ public class SystemMotorMove : BaseSystem
 		{
 			currentVelocity += Vector3.up * move.Gravity * deltaTime;
 		}
-
-		Debug.Log(currentVelocity);
 
 		return currentVelocity;
 	}

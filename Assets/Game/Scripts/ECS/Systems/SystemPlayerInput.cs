@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UpdatesIntarfaces;
 
 [Serializable]
-public class SystemPlayerInput : BaseSystem, IUpdate
+public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 {
 	private Dictionary<Entity, bool> _squatStates = new();
 
 	public List<Entity> _entities;
 	public List<DataMoveInput> _inputs;
 	public List<DataMotorMove> _motorMoves;
+	public List<DataMotorRotate> _motorRotate;
 
-	private Filter<DataMoveInput, DataMotorMove> _filter;
+	private Filter<DataMoveInput, DataMotorMove, DataMotorRotate> _filter;
 
 	public override void Init()
 	{
-		_filter = new(out _entities, out _inputs, out _motorMoves, TagEntity.Player);
+		_filter = new(out _entities, out _inputs, out _motorMoves, out _motorRotate, TagEntity.Player);
 		World.AddFilter(_filter);
 	}
 
@@ -24,6 +26,8 @@ public class SystemPlayerInput : BaseSystem, IUpdate
 	{
 		if (PlayerInputsData.IsPause)
 			return;
+
+		PlayerInputsData.RotationHead = Input.mousePositionDelta * ConfigKeyCode.Current.SentityMause;
 
 		for (int i = 0; i < _entities.Count; i++)
 		{
@@ -64,6 +68,18 @@ public class SystemPlayerInput : BaseSystem, IUpdate
 				motorMove.TypeMove = TypeMotorMove.Sprint;
 			else
 				motorMove.TypeMove = TypeMotorMove.Default;
+		}
+	}
+
+	public void LateUpdate()
+	{
+		if (PlayerInputsData.IsPause || !PlayerInputsData.IsRotationHead)
+			return;
+
+		for (int i = 0; i < _motorRotate.Count; i++)
+		{
+			float xMouseMove = Input.mousePositionDelta.x * ConfigKeyCode.Current.SentityMause.x * Time.deltaTime * 10f;
+			_motorRotate[i].TargetRotate *= Quaternion.AngleAxis(xMouseMove, Vector3.up);
 		}
 	}
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
+
 
 public abstract class Filter
 {
@@ -155,7 +157,7 @@ public class Filter<A, B, C> : Filter
 			_b.Add(b);
 			_c.Add(c);
 		}
-
+		//Debug.Log($"add {entity.name}, tag: {_tagFilter}, F: {typeof(A).Name}, {typeof(B).Name}, {typeof(C).Name}");
 		OnAddEntity(entity);
 	}
 
