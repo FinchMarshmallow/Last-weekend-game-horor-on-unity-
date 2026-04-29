@@ -1,5 +1,5 @@
 ﻿
-public interface IOpener
+public interface IPester
 {
 	public Entity Entity { get; }
 }
