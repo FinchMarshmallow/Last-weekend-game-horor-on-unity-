@@ -997,11 +997,10 @@ GameObject:
   - component: {fileID: 131574142}
   - component: {fileID: 131574145}
   - component: {fileID: 131574144}
-  - component: {fileID: 131574143}
-  - component: {fileID: 131574146}
   - component: {fileID: 131574147}
+  - component: {fileID: 131574148}
   m_Layer: 0
-  m_Name: Character
+  m_Name: player Character
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1015,33 +1014,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 131574141}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2094718081}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 555871093}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &131574143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131574141}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf8778a762eb0d5409c59044b5ecc9d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharecterController
-  speedMove: 8
-  stable: 40
-  gravity: -60
-  multySpeedDrop: 0.2
-  multySpeedSquat: 0.3
-  multySpeedSprint: 2
-  IsSquat: 0
 --- !u!114 &131574144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,24 +1087,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &131574146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 131574141}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77c0472c589e8d549a0a94e17045dc80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharecterSquat
-  eyesPoint: {fileID: 712844553}
-  meshRoot: {fileID: 316030543}
-  heightSquat: 1
-  eyesOffest: {x: 0, y: -0.7, z: 0}
-  rootSquatOffest: {x: 0, y: 0, z: 0}
-  scaleRootSquat: {x: 1, y: 0.7, z: 1}
 --- !u!114 &131574147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1105,7 @@ MonoBehaviour:
   - rid: 315174556014477619
   - rid: 315174556014477620
   - rid: 315174556014477621
+  - rid: 315174585204211789
   references:
     version: 2
     RefIds:
@@ -1169,6 +1132,29 @@ MonoBehaviour:
       type: {class: DataMoveInput, ns: , asm: Assembly-CSharp}
       data:
         Direct: {x: 0, y: 0, z: 0}
+    - rid: 315174585204211789
+      type: {class: DataMotorRotate, ns: , asm: Assembly-CSharp}
+      data:
+        TargetRotate: {x: 0.008726535, y: 0, z: 0, w: 0.9999619}
+--- !u!114 &131574148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 131574141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2631240a2e3a847a7a70a13bce7799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProviderPesterItem
+  entity: {fileID: 131574147}
+  headPoint: {fileID: 330585546}
+  radiusCust: 0.2
+  distanceCust: 3
+  layer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &167402055
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,7 +2192,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 555871093}
-  - component: {fileID: 555871092}
   - component: {fileID: 555871091}
   m_Layer: 0
   m_Name: Player
@@ -2228,19 +2213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCamera
   headPoint: {fileID: 712844553}
-  _planarDirect: {x: 0, y: 0, z: 1}
---- !u!114 &555871092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555871090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87e1bdb57d5e66a45a17cd8134f3c8e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputHandler
 --- !u!4 &555871093
 Transform:
   m_ObjectHideFlags: 0
@@ -2255,6 +2227,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 129217618}
+  - {fileID: 131574142}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &594458916
@@ -3260,6 +3233,7 @@ MonoBehaviour:
   - rid: 315174556014477615
   - rid: 315174556014477617
   - rid: 315174556014477616
+  - rid: 315174585204211799
   references:
     version: 2
     RefIds:
@@ -3269,6 +3243,7 @@ MonoBehaviour:
         _entities: []
         _inputs: []
         _motorMoves: []
+        _motorRotate: []
     - rid: 315174556014477616
       type: {class: SystemMotorFallUnderGround, ns: , asm: Assembly-CSharp}
       data:
@@ -3282,6 +3257,12 @@ MonoBehaviour:
         _motors: []
         _inputs: []
         _moves: []
+    - rid: 315174585204211799
+      type: {class: SystemMotorRoatate, ns: , asm: Assembly-CSharp}
+      data:
+        _entities: []
+        _motors: []
+        _rotates: []
 --- !u!4 &1051360478
 Transform:
   m_ObjectHideFlags: 0
@@ -5153,7 +5134,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 131574142}
   - {fileID: 167402056}
   - {fileID: 555871093}
   - {fileID: 1051360478}
