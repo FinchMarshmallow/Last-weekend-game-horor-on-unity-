@@ -40,7 +40,7 @@ public class SystemMotorFallUnderGround : BaseSystem
 
 	private void RemoveHandlerEntity(Entity entity)
 	{
-		if (entity.TryGetDataByID<DataMotor>(out var motor) &&
+		if (entity.TryGetDataByType<DataMotor>(out var motor) &&
 			_handlers.TryGetValue(entity, out var handler))
 		{
 			motor.HandlerColliderCollisions -= handler;

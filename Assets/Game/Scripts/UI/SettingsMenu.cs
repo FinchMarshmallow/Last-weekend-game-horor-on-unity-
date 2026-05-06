@@ -32,9 +32,9 @@ public class SettingsMenu : MonoBehaviour
 		keysCodesTextButton[0].text = _keysKodes.Forward.ToString();
 		keysCodesTextButton[1].text = _keysKodes.Back.ToString();
 		keysCodesTextButton[2].text = _keysKodes.Left.ToString();
-		keysCodesTextButton[3].text = _keysKodes.Right.ToString();
+		keysCodesTextButton[3].text = _keysKodes.Right.ToString();/*
 		keysCodesTextButton[4].text = _keysKodes.Interaction.ToString();
-		keysCodesTextButton[5].text = _keysKodes.OpenInventory.ToString();
+		keysCodesTextButton[5].text = _keysKodes.OpenInventory.ToString();*/
 		keysCodesTextButton[6].text = _keysKodes.Stels.ToString();
 		keysCodesTextButton[7].text = _keysKodes.Sprint.ToString();
 		keysCodesTextButton[8].text = _keysKodes.Jump.ToString();
@@ -119,9 +119,9 @@ public class SettingsMenu : MonoBehaviour
 			case 0: _keysKodes.Forward = pressedKey.Value; break;
 			case 1: _keysKodes.Back = pressedKey.Value; break;
 			case 2: _keysKodes.Left = pressedKey.Value; break;
-			case 3: _keysKodes.Right = pressedKey.Value; break;
+			case 3: _keysKodes.Right = pressedKey.Value; break;/*
 			case 4: _keysKodes.Interaction = pressedKey.Value; break;
-			case 5: _keysKodes.OpenInventory = pressedKey.Value; break;
+			case 5: _keysKodes.OpenInventory = pressedKey.Value; break;*/
 			case 6: _keysKodes.Stels = pressedKey.Value; break;
 			case 7: _keysKodes.Sprint = pressedKey.Value; break;
 			case 8: _keysKodes.Jump = pressedKey.Value; break;

@@ -37,7 +37,7 @@ public class Filter<A> : Filter
 
 		A a = null;
 
-		if (entity.TryGetDataByID(out a))
+		if (entity.TryGetDataByType(out a))
 		{
 			_entities.Add(entity);
 			_a.Add(a);
@@ -89,8 +89,8 @@ public class Filter<A, B> : Filter
 		A a = null;
 		B b = null;
 
-		if (entity.TryGetDataByID(out a) &&
-			entity.TryGetDataByID(out b))
+		if (entity.TryGetDataByType(out a) &&
+			entity.TryGetDataByType(out b))
 		{
 			_entities.Add(entity);
 			_a.Add(a);
@@ -148,9 +148,9 @@ public class Filter<A, B, C> : Filter
 		B b = null;
 		C c = null;
 
-		if (entity.TryGetDataByID(out a) &&
-			entity.TryGetDataByID(out b) &&
-			entity.TryGetDataByID(out c))
+		if (entity.TryGetDataByType(out a) &&
+			entity.TryGetDataByType(out b) &&
+			entity.TryGetDataByType(out c))
 		{
 			_entities.Add(entity);
 			_a.Add(a);
@@ -214,10 +214,10 @@ public class Filter<A, B, C, D> : Filter
 		C c = null;
 		D d = null;
 
-		if (entity.TryGetDataByID(out a) &&
-			entity.TryGetDataByID(out b) &&
-			entity.TryGetDataByID(out c) &&
-			entity.TryGetDataByID(out d))
+		if (entity.TryGetDataByType(out a) &&
+			entity.TryGetDataByType(out b) &&
+			entity.TryGetDataByType(out c) &&
+			entity.TryGetDataByType(out d))
 		{
 			_entities.Add(entity);
 			_a.Add(a);

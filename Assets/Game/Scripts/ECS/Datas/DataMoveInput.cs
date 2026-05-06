@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class DataMoveInput : BaseData
 {
-	public Vector3 Direct;
+	[NonSerialized] public Vector3 Direct;
 
 	public override BaseData Copy()
 	{

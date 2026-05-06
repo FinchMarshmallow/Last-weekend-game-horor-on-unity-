@@ -6,7 +6,7 @@ public class Entity : MonoBehaviour
 {
 	public TagEntity Tag;
 
-	[NonSerialized] public Rigidbody2D Rb;
+	[NonSerialized] public Rigidbody Rb;
 	[SerializeReference, SubclassSelector] public List<BaseData> Datas;
 
 	private void Awake()
@@ -28,7 +28,7 @@ public class Entity : MonoBehaviour
 		}
 	}
 
-	public bool TryGetDataByID<T>(out T data) where T : BaseData
+	public bool TryGetDataByType<T>(out T data) where T : class
 	{
 		for (int i = 0; i < Datas.Count; i++)
 		{
@@ -41,6 +41,21 @@ public class Entity : MonoBehaviour
 
 		data = null;
 		return false;
+	}
+
+	public bool TryGetAllDataByType<T>(out List<T> datas) where T : class
+	{
+		datas = new();
+
+		for (int i = 0; i < Datas.Count; i++)
+		{
+			if (Datas[i] is T t)
+			{
+				datas.Add(t);
+			}
+		}
+
+		return datas.Count > 0;
 	}
 
 	public List<BaseData> CopyAllData()

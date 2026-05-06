@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using UpdatesIntarfaces;
 
@@ -13,12 +12,15 @@ public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 	public List<DataMoveInput> _inputs;
 	public List<DataMotorMove> _motorMoves;
 	public List<DataMotorRotate> _motorRotate;
+	public List<DataPester> _pesters;
 
-	private Filter<DataMoveInput, DataMotorMove, DataMotorRotate> _filter;
+	private Filter<DataMoveInput, DataMotorMove, DataMotorRotate, DataPester> _filter;
+
+	private float _timePressDropKey = 0f, _forceDrop;
 
 	public override void Init()
 	{
-		_filter = new(out _entities, out _inputs, out _motorMoves, out _motorRotate, TagEntity.Player);
+		_filter = new(out _entities, out _inputs, out _motorMoves, out _motorRotate, out _pesters, TagEntity.Player);
 		World.AddFilter(_filter);
 	}
 
@@ -27,6 +29,20 @@ public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 		if (PlayerInputsData.IsPause)
 			return;
 
+		Move();
+		InputInteract();
+	}
+
+	public void LateUpdate()
+	{
+		if (PlayerInputsData.IsPause || !PlayerInputsData.IsRotationHead)
+			return;
+
+		HandRotate();
+	}
+
+	private void Move()
+	{
 		PlayerInputsData.RotationHead = Input.mousePositionDelta * ConfigKeyCode.Current.SentityMause;
 
 		for (int i = 0; i < _entities.Count; i++)
@@ -71,15 +87,41 @@ public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 		}
 	}
 
-	public void LateUpdate()
+	private void HandRotate()
 	{
-		if (PlayerInputsData.IsPause || !PlayerInputsData.IsRotationHead)
-			return;
-
 		for (int i = 0; i < _motorRotate.Count; i++)
 		{
 			float xMouseMove = Input.mousePositionDelta.x * ConfigKeyCode.Current.SentityMause.x * Time.deltaTime * 10f;
 			_motorRotate[i].TargetRotate *= Quaternion.AngleAxis(xMouseMove, Vector3.up);
+		}
+	}
+
+	private void InputInteract()
+	{
+		_forceDrop = 0f;
+		PesterCommand command = PesterCommand.None;
+
+		if (Input.GetKey(ConfigKeyCode.Current.InteractOrTake)) command = PesterCommand.TakeInteract;
+		if (Input.GetKey(ConfigKeyCode.Current.Inspect)) command = PesterCommand.InspectSwitchState;
+
+		if (Input.GetKey(ConfigKeyCode.Current.Drop)) _timePressDropKey += Time.deltaTime;
+		else if (Input.GetKeyUp(ConfigKeyCode.Current.Drop))
+		{
+			if(_timePressDropKey < ConfigKeyCode.Current.StartPressTimeDropForce)
+			{
+				command = PesterCommand.Drop;
+			}
+			else
+			{
+				command = PesterCommand.ThrowWithForce;
+				_forceDrop = Mathf.Clamp01(_timePressDropKey / ConfigKeyCode.Current.MaxPressTimeDropForce);
+			}
+		}
+
+		for (int i = 0; i < _entities.Count; i++)
+		{
+			_pesters[i].Command = command;
+			_pesters[i].DropForce = _forceDrop;
 		}
 	}
 }

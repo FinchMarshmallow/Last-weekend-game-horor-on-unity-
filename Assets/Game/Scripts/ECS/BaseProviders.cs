@@ -2,5 +2,11 @@ using UnityEngine;
 
 public abstract class BaseProviders : MonoBehaviour
 {
-	[SerializeField] protected Entity entity;
+	public Entity Entity { get; private set; }
+
+	private void Awake()
+	{
+		if (Entity == null)
+			Entity = GetComponent<Entity>();
+	}
 }

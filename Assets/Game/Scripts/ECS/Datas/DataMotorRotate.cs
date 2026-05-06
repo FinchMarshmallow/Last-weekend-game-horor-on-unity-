@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class DataMotorRotate : BaseData
 {
-	public Quaternion TargetRotate = Quaternion.identity;
+	[NonSerialized] public Quaternion TargetRotate = Quaternion.identity;
 
 	public override BaseData Copy()
 	{
