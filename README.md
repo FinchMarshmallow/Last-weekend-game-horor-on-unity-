@@ -13,3 +13,9 @@
 ![Слайд 7](docs/img/page_7.png)
 ![Слайд 8](docs/img/page_8.png)
 ![Слайд 9](docs/img/page_9.png)
+![Слайд 9](docs/img/page_10.png)
+![Слайд 9](docs/img/page_11.png)
+![Слайд 9](docs/img/page_12.png)
+![Слайд 9](docs/img/page_13.png)
+
+
