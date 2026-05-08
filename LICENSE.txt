@@ -1,0 +1,7 @@
+1. AI Training Prohibition: The Software and any derivative works (forks) may not be used, in whole or in part, as a dataset for training machine learning models or artificial intelligence systems without prior written consent from the Author.
+
+2. Non-Commercial Use: You may use, copy, and modify the Software for non-commercial purposes only. "Non-commercial" means use that does not result in direct or indirect financial gain, including but not limited to advertising revenue, subscriptions, or employment-related tasks.
+
+3. Commercial Licensing: Any commercial use of the Software requires a separate written agreement with the Author. Terms of such use shall be negotiated on a case-by-case basis.
+
+4. Viral Effect: These terms apply to all forks, redistributed versions, and projects that incorporate the Software's code.
