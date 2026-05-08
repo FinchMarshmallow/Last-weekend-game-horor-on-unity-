@@ -2,6 +2,8 @@
 
 [Presentation google dick](https://drive.google.com/file/d/1y_aP3Wp68MEUmyaUjo3V5B7MYn3UkZmM/view?usp=sharing)
 
+![GitHub Pages](https://finchmarshmallow.github.io/Last-weekend-game-horor-on-unity-/)
+
 ![Слайд 1](docs/img/page_1.png)
 ![Слайд 2](docs/img/page_2.png)
 ![Слайд 3](docs/img/page_3.png)
