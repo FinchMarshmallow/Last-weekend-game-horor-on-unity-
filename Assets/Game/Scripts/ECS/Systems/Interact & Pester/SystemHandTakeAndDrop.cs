@@ -43,7 +43,7 @@ public class SystemHandTakeAndDrop : BaseSystem, IUpdate
 					dataTakeible.WorldObject.SetParent(_hands[i].Point.Content);
 					dataTakeible.WorldObject.localPosition = dataTakeible.OffsetLocalPos;
 					dataTakeible.WorldObject.localRotation = Quaternion.identity;
-					dataTakeible.WorldObject.Rotate(dataTakeible.OffsetLocalRot);
+					dataTakeible.WorldObject.Rotate(dataTakeible.OffsetLocalRotAxis);
 					dataTakeible.Action.Invoke(dataTakeible.IdActionTake);
 
 					_pesters[i].Command = PesterCommand.None;
@@ -68,7 +68,7 @@ public class SystemHandTakeAndDrop : BaseSystem, IUpdate
 			}
 			else if (!_hands[i].IsFree && (
 				_pesters[i].Command == PesterCommand.Drop ||
-				_pesters[i].Command == PesterCommand.ThrowWithForce))
+				_pesters[i].Command == PesterCommand.DropForce))
 			{
 				InteractByffer interactByffer = new();
 				DataInteract dataInteract = null;
@@ -117,7 +117,7 @@ public class SystemHandTakeAndDrop : BaseSystem, IUpdate
 				}
 
 				// Drop throw with force item in hand
-				if (_pesters[i].Command == PesterCommand.ThrowWithForce)
+				if (_pesters[i].Command == PesterCommand.DropForce)
 				{
 					_hands[i].IsFree = false;
 					dataInteract.State = InteractState.None;

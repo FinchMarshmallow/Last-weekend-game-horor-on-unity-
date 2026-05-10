@@ -1,4 +1,3 @@
-using System.Net;
 using UnityEngine;
 
 public class HandPoint : MonoBehaviour
@@ -15,6 +14,7 @@ public class HandPoint : MonoBehaviour
 	public Transform Content => hand;
 	public RaycastHit Hit => _hit;
 	public bool IsContact { get; private set; }
+	public Vector3 CastPointNoContact => head.position + (head.forward * distanceCust);
 
 #if UNITY_EDITOR
 	[SerializeField] private Color gizmo;
@@ -53,6 +53,9 @@ public class HandPoint : MonoBehaviour
 #if UNITY_EDITOR
 	private void OnDrawGizmos()
 	{
+		if (head == null)
+			return;
+
 		Gizmos.color = gizmo;
 		Vector3
 			originCast = head.position + _startHandPos,

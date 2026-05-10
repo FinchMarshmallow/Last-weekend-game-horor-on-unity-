@@ -11,7 +11,8 @@ public class DataInteractTkeible : BaseData, IInteract
 		IdActionTake;
 	public Sprite SlotHandImg;
 	public Transform WorldObject;
-	public Vector3 OffsetLocalPos, OffsetLocalRot;
+	public Vector3 OffsetLocalPos, OffsetLocalRotAxis;
+	public float OffsetRotAngle;
 
 	public override BaseData Copy()
 	{
@@ -23,7 +24,8 @@ public class DataInteractTkeible : BaseData, IInteract
 		copy.SlotHandImg = SlotHandImg;
 		copy.WorldObject = WorldObject;
 		copy.OffsetLocalPos = OffsetLocalPos;
-		copy.OffsetLocalRot = OffsetLocalRot;
+		copy.OffsetLocalRotAxis = OffsetLocalRotAxis;
+		copy.OffsetRotAngle = OffsetRotAngle;
 
 		return copy;
 	}

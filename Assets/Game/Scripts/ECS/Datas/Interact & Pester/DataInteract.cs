@@ -18,14 +18,31 @@ public interface IInteract
 	public InteractType GetTypeInteract();
 }
 
+public struct PesterByffer
+{
+	public DataPester Data;
+	public ProviderPester Provider;
+	public Entity Entity;
+
+	public PesterByffer(Entity entity, DataPester data, ProviderPester provider)
+	{
+		this.Entity = entity;
+		this.Data = data;
+		this.Provider = provider;
+	}
+}
+
 [Serializable]
 public class DataInteract : BaseData
 {
 	public ProviderInteract Provider { get; private set; }
 	public InteractType HowCanInteract;
 	public InteractState State;
+	public PesterByffer CurrentPester;
 
 	public List<IInteract> Interacts;
+
+	[NonReorderable] public Entity Entity;
 
 	public override BaseData Copy()
 	{
@@ -35,6 +52,7 @@ public class DataInteract : BaseData
 
 	public override void Init(Entity entity)
 	{
+		Entity = entity;
 		Provider = entity.GetComponent<ProviderInteract>();
 
 		if (entity.TryGetAllDataByType(out Interacts))

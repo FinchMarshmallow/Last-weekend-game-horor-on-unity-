@@ -9,6 +9,7 @@ public class ProviderPester : BaseProviders
 	[SerializeField] private LayerMask layer;
 
 	public InteractByffer CurrentSelectObject { get; private set; }
+
 	public RaycastHit CurentHit { get; private set; }
 
 	private Quaternion _oldQuaternion;

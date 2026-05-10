@@ -1,17 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 [Serializable]
 public enum PesterCommand
 {
 	None,
+	
 	TakeInteract,
+	
 	Drop,
-	ThrowWithForce,
+	DropForce,
+	
+	Inventory,
+
 	InspectSwitchState,
 	Inspecting,
-	PutIntoInventory,
 }
 
 [Serializable]
@@ -49,7 +54,6 @@ public class DataPester : BaseData
 	[NonSerialized] public ProviderPester Provider;
 	public PesterCommand Command;
 	public float DropForce = 0f;
-	//public InteractType CurrentIntaracts;
 
 	public override BaseData Copy()
 	{
@@ -74,13 +78,31 @@ public class DataPester : BaseData
 		Action = manager.GetByName(nameActionProvider);
 	}
 
-/*	public void UpdateInteractMask()
-	{
-		CurrentIntaracts = 0;
 
+	 /* get by entity */
+	public int GetIdInteractByffer(Entity entity)
+	{
 		for (int i = 0; i < Interacts.Count; i++)
-		{
-			CurrentIntaracts ^= Interacts[i].Data.HowCanInteract;
-		}
-	}*/
+			if (Interacts[i].Entity == entity) return i;
+
+		return -1;
+	}
+
+	/* get by provider */
+	public int GetIdInteractByffer(ProviderInteract provider)
+	{
+		for (int i = 0; i < Interacts.Count; i++)
+			if (Interacts[i].Provider == provider) return i;
+
+		return -1;
+	}
+
+	/* get by data */
+	public int GetIdInteractByffer(DataInteract data)
+	{
+		for (int i = 0; i < Interacts.Count; i++)
+			if (Interacts[i].Data == data) return i;
+
+		return -1;
+	}
 }

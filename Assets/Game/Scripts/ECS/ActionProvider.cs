@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class ActionProvider : MonoBehaviour
 {
+	public string Name;
 	[SerializeField] private List<UnityEvent<int>> actions;
 
 	public void Invoke(int id, int argument = 0)

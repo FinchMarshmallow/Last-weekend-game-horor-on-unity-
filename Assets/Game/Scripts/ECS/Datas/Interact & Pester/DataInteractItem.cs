@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [Serializable]
-public class DataInteractInventoriable : BaseData, IInteract
+public class DataInteractItem : BaseData, IInteract
 {
 	[SerializeField] private string nameActionProvider;
 	[NonSerialized] public ActionProvider Action;
@@ -11,11 +11,12 @@ public class DataInteractInventoriable : BaseData, IInteract
 		IdActionIntoInpentory;
 
 	public Sprite SlotImg;
+	public string SlotName;
 	public Transform WorldObject;
 
 	public override BaseData Copy()
 	{
-		DataInteractInventoriable copy = new();
+		DataInteractItem copy = new();
 
 		copy.nameActionProvider = nameActionProvider;
 		copy.IdActionLeaveInpentory = IdActionLeaveInpentory;

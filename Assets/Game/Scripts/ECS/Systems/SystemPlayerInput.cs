@@ -113,7 +113,7 @@ public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 			}
 			else
 			{
-				command = PesterCommand.ThrowWithForce;
+				command = PesterCommand.DropForce;
 				_forceDrop = Mathf.Clamp01(_timePressDropKey / ConfigKeyCode.Current.MaxPressTimeDropForce);
 			}
 		}

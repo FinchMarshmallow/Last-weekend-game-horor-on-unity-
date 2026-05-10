@@ -4,7 +4,7 @@ using UnityEngine;
 using UpdatesIntarfaces;
 
 [Serializable]
-public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
+public class SystemInventory : BaseSystem, IUpdate
 {
 	public List<Entity> _entities;
 	public List<DataPester> _pesters;
@@ -20,7 +20,7 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 
 	public void Update()
 	{
-		for (int i = 0; i < _entities.Count; i++)
+		/*for (int i = 0; i < _entities.Count; i++)
 		{
 			if (_pesters[i].Command != PesterCommand.PutIntoInventory)
 				continue;
@@ -39,7 +39,7 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 				InteractByffer interactByffer = new();
 				DataInteract dataInteract = null;
 				DataInteractTkeible dataTakeible = null;
-				DataInteractInventoriable dataItem = null;
+				DataInteractItem dataItem = null;
 
 				for (int j = 0; j < _pesters[i].Interacts.Count; j++)
 				{
@@ -67,13 +67,13 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 				dataTakeible.WorldObject.SetParent(_hands[i].Point.Content);
 				dataTakeible.WorldObject.localPosition = dataTakeible.OffsetLocalPos;
 				dataTakeible.WorldObject.localRotation = Quaternion.identity;
-				dataTakeible.WorldObject.Rotate(dataTakeible.OffsetLocalRot);
+				dataTakeible.WorldObject.Rotate(dataTakeible.OffsetLocalRotAxis);
 
 				interactByffer.Entity.gameObject.SetActive(true);
 
 				dataTakeible.Action.Invoke(dataTakeible.IdActionTake);
 
-				_inventorys[i].CurrentFreeSlots++;
+				_inventorys[i].CountFreeSlots++;
 				_hands[i].IsFree = false;
 
 				_pesters[i].Command = PesterCommand.None;
@@ -81,14 +81,14 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 			}
 			else
 			{
-				if (_inventorys[i].CurrentFreeSlots == 0) // Svap Inventory item And Hand item
+				if (_inventorys[i].CountFreeSlots == 0) // Svap Inventory item And Hand item
 				{
 					int caunter = 0;
 					bool error = false;
 					InteractByffer interactByffer_InInventoty = new();
 					DataInteract dataInteract_InInventoty = null;
 					DataInteractTkeible dataTakeible_InInventoty = null;
-					DataInteractInventoriable dataItem_InInventoty = null;
+					DataInteractItem dataItem_InInventoty = null;
 
 					for (int j = 0; j < _pesters[i].Interacts.Count; j++)
 					{
@@ -114,7 +114,7 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 					InteractByffer interactByffer_InHand = new();
 					DataInteract dataInteract_InHand = null;
 					DataInteractTkeible dataTakeible_InHand = null;
-					DataInteractInventoriable dataItem_InHand = null;
+					DataInteractItem dataItem_InHand = null;
 
 
 					for (int j = 0; j < _pesters[i].Interacts.Count; j++)
@@ -139,7 +139,7 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 					dataTakeible_InInventoty.WorldObject.SetParent(_hands[i].Point.Content);
 					dataTakeible_InInventoty.WorldObject.localPosition = dataTakeible_InInventoty.OffsetLocalPos;
 					dataTakeible_InInventoty.WorldObject.localRotation = Quaternion.identity;
-					dataTakeible_InInventoty.WorldObject.Rotate(dataTakeible_InInventoty.OffsetLocalRot);
+					dataTakeible_InInventoty.WorldObject.Rotate(dataTakeible_InInventoty.OffsetLocalRotAxis);
 
 					interactByffer_InInventoty.Entity.gameObject.SetActive(true);
 
@@ -163,7 +163,7 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 					continue;
 				}
 
-				if (_inventorys[i].CurrentFreeSlots > 0)
+				if (_inventorys[i].CountFreeSlots > 0)
 				{
 
 					InteractByffer interactByffer = new();
@@ -188,12 +188,43 @@ public class SystemPutAndRemoveItemInventory : BaseSystem, IUpdate
 					interactByffer.Entity.gameObject.SetActive(false);
 					dataInteract.State = InteractState.InInventory;
 
-					_inventorys[i].CurrentFreeSlots--;
+					_inventorys[i].CountFreeSlots--;
 					_hands[i].IsFree = true;
 
 					_pesters[i].Command = PesterCommand.None;
 					continue;
 				}
+			}
+		}*/
+
+		for (int i = 0; i < _entities.Count; i++)
+		{
+			DataPester pester = _pesters[i];
+
+			if (pester.Command == PesterCommand.None)
+				continue;
+
+			DataPesterHand hand = _hands[i];
+			DataPesterInventory inventory = _inventorys[i];
+
+			switch (pester.Command)
+			{
+				case PesterCommand.None:
+					break;
+
+				case PesterCommand.Inventory:
+
+					int idPester = _pesters[i].GetIdInteractByffer(_entities[i]);
+
+					DataInteract dataInteract = _pesters[i].Interacts[idPester].Data;
+					DataInteractItem dataItem = dataInteract.GetInteractByType<DataInteractItem>();
+
+					if (RealizationsPesterAndInteraction.Pester_TryAddItemIntoInventory(_inventorys[i], dataItem))
+					{
+
+					}
+
+					break;
 			}
 		}
 	}
