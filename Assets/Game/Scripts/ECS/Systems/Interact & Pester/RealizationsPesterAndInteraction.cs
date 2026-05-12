@@ -3,6 +3,54 @@
 public static class RealizationsPesterAndInteraction
 {
 	/* Pesters */
+	public static bool Pester_TrySvapItemHandAndInventory_AutoSet(DataPester pester, DataPesterInventory inventory, DataPesterHand hand)
+	{
+		if (inventory == null ||
+			hand == null)
+			return false;
+
+		DataInteractItem interactItem = null;
+
+		 if (!hand.IsFree &&
+			!hand.Buffer.Entity.TryGetDataByType(out  interactItem))
+			return false;
+
+		if (inventory.CountFreeSlots > 0 &&
+			Pester_TryAddItemIntoInventory(inventory, interactItem))
+		{
+			Interact_SetStateInInventory(pester, hand.Buffer.Data, interactItem, inventory);
+			hand.IsFree = true;
+			return true;
+		}
+
+		interactItem = inventory.Items[inventory.CurrentSelectSlot];
+
+		if (!interactItem.Entity.TryGetDataByType(out DataInteractTkeible tkeibleItem))
+			return false;
+
+		if (!interactItem.Entity.TryGetDataByType(out interactItem))
+			return false;
+
+		hand.IsFree = true;
+		inventory.Items[inventory.CurrentSelectSlot] = null;
+		inventory.CountFreeSlots++;
+
+		if (Pester_TryAddItemIntoInventory(inventory, interactItem) &&
+			Pester_TryTakeibleItemIntoHand(pester, hand))
+		{
+			Interact_SetStateInHand(pester, hand.Buffer.Data, tkeibleItem, hand);
+			Interact_SetStateInInventory(pester, hand.Buffer.Data, interactItem, inventory);
+			return true;
+		}
+
+		// remove svap
+		hand.IsFree = false;
+		inventory.Items[inventory.CurrentSelectSlot] = interactItem;
+		inventory.CountFreeSlots--;
+
+		return false;
+	}
+
 	public static bool Pester_TryAddItemIntoInventory(DataPesterInventory inventory, DataInteractItem item)
 	{
 		if (inventory == null ||
@@ -64,12 +112,53 @@ public static class RealizationsPesterAndInteraction
 		return false;
 	}
 
-	public static bool Pester_TryTakeibleItemIntoHand(DataPesterHand hand, DataInteractTkeible item, DataInteractWithItemInHand itemInteract = null)
+	public static bool Pester_TryTakeibleItemIntoHand(DataPester pester, DataPesterHand hand)
 	{
-		if (hand == null || 
-			item == null ||
-			!hand.IsFree)
+		if (hand == null ||
+			!hand.IsFree ||
+			!hand.Point.Hit.transform.TryGetComponent(out Entity itemItentity) ||
+			!itemItentity.TryGetDataByType(out DataInteractTkeible item))
 			return false;
+
+		int i = pester.GetIdInteractByffer(itemItentity);
+
+		if (i == -1 ||
+			i >= pester.Interacts.Count)
+			return false;
+
+		hand.Buffer = pester.Interacts[i];
+
+		itemItentity.TryGetDataByType(out DataInteractWithItemInHand itemInteract);
+
+		hand.IsFree = false;
+		hand.Item = item;
+		hand.ItemInterac = itemInteract;
+
+
+		hand.Action.Invoke(hand.IdActionTake);
+		item.Action.Invoke(item.IdActionTake);
+
+		return true;
+	}
+
+	public static bool Pester_TryTakeibleItemIntoHand_AutoSet(DataPester pester, DataPesterHand hand)
+	{
+		if (hand == null ||
+			!hand.IsFree ||
+			!hand.Point.Hit.transform.TryGetComponent(out Entity itemItentity) ||
+			!itemItentity.TryGetDataByType(out DataInteract interact) ||
+			!itemItentity.TryGetDataByType(out DataInteractTkeible item))
+			return false;
+
+		int i = pester.GetIdInteractByffer(itemItentity);
+
+		if (i == -1 ||
+			i >= pester.Interacts.Count)
+			return false;
+
+		hand.Buffer = pester.Interacts[i];
+
+		itemItentity.TryGetDataByType(out DataInteractWithItemInHand itemInteract);
 
 		hand.IsFree = false;
 		hand.Item = item;
@@ -77,6 +166,46 @@ public static class RealizationsPesterAndInteraction
 
 		hand.Action.Invoke(hand.IdActionTake);
 		item.Action.Invoke(item.IdActionTake);
+
+		Interact_SetStateInHand(pester, interact, item, hand);
+
+		return true;
+	}
+
+	public static bool Pester_TryDropItemInHand_AutoSet(DataPester pester, DataPesterHand hand, bool isForce = false)
+	{
+		if (hand == null ||
+			hand.IsFree ||
+			hand.Buffer.Entity == null ||
+			!hand.Buffer.Entity.TryGetDataByType(out DataInteract interact) ||
+			!hand.Buffer.Entity.TryGetDataByType(out DataInteractTkeible item))
+			return false;
+
+		Entity itemItentity = hand.Buffer.Entity;
+
+		int i = pester.GetIdInteractByffer(itemItentity);
+
+		if (i == -1 ||
+			i >= pester.Interacts.Count)
+			return false;
+
+		hand.Buffer = pester.Interacts[i];
+
+		hand.IsFree = true;
+		hand.Item = null;
+		hand.ItemInterac = null;
+
+		hand.Action.Invoke(hand.IdActionDrop);
+		item.Action.Invoke(item.IdActionDrop);
+
+		if (isForce)
+		{
+			Interact_SetStateDropForce(pester, interact, item, hand, pester.DropForce);
+		}
+		else
+		{
+			Interact_SetStateDropToPoint(pester, interact, item, hand);
+		}
 
 		return true;
 	}

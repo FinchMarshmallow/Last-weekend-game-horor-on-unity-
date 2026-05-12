@@ -13,6 +13,7 @@ public class DataInteractItem : BaseData, IInteract
 	public Sprite SlotImg;
 	public string SlotName;
 	public Transform WorldObject;
+	[NonSerialized] public Entity Entity;
 
 	public override BaseData Copy()
 	{
@@ -27,6 +28,7 @@ public class DataInteractItem : BaseData, IInteract
 
 	public override void Init(Entity entity)
 	{
+		Entity = entity;
 		entity.TryGetComponent(out ActionProviderManager manager);
 		Action = manager.GetByName(nameActionProvider);
 		WorldObject = entity.transform;

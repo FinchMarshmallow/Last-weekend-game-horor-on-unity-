@@ -13,6 +13,7 @@ public class DataInteractTkeible : BaseData, IInteract
 	public Transform WorldObject;
 	public Vector3 OffsetLocalPos, OffsetLocalRotAxis;
 	public float OffsetRotAngle;
+	[NonSerialized] public Entity Entity;
 
 	public override BaseData Copy()
 	{
@@ -32,6 +33,7 @@ public class DataInteractTkeible : BaseData, IInteract
 
 	public override void Init(Entity entity)
 	{
+		Entity = entity;
 		entity.TryGetComponent(out ActionProviderManager manager);
 		Action = manager.GetByName(nameActionProvider);
 	}

@@ -8,6 +8,7 @@ public class DataPesterHand : BaseData
 	public bool IsFree;
 	public float MaxForce;
 
+	[NonSerialized] public InteractByffer Buffer;
 	[NonSerialized] public DataInteractTkeible Item;
 	[NonSerialized] public DataInteractWithItemInHand ItemInterac;
 
