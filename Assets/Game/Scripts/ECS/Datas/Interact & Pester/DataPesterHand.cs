@@ -26,7 +26,6 @@ public class DataPesterHand : BaseData
 
 	public override void Init(Entity entity)
 	{
-		entity.TryGetComponent(out Point);
 		entity.TryGetComponent(out ActionProviderManager manager);
 		Action = manager.GetByName(nameActionProvider);
 	}

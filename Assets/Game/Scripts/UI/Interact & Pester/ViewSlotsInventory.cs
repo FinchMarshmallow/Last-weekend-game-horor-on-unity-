@@ -1,7 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,16 +19,24 @@ public class ViewSlotsInventory : MonoBehaviour
 
 	[SerializeField] private GameObject addSlot;
 
-	private DataPesterInventory inventory;
+	private DataPesterInventory _inventory;
 
 	private void Start()
 	{
-		entity.TryGetDataByType(out inventory);
+		StartCoroutine(LongStart());
+	}
 
-		if (inventory.Items.Length != slots.Count)
-			Debug.LogError($"ViewSlotsInventory: Start: inventory.Items.Length ({inventory.Items.Length}) != slots.Count ({slots.Count})");
+	private IEnumerator LongStart()
+	{
+		yield return new WaitForSeconds(0.1f);
 
-		for (int i = 0;i < slots.Count; i++)
+		if (_inventory.Items.Length != slots.Count)
+			Debug.LogError($"ViewSlotsInventory: Start: inventory.Items.Length ({_inventory.Items.Length}) != slots.Count ({slots.Count})");
+
+		entity.TryGetDataByType(out _inventory);
+
+
+		for (int i = 0; i < slots.Count; i++)
 		{
 			slots[i].Img.enabled = false;
 			slots[i].Num.text = $"{i}";
@@ -56,18 +64,18 @@ public class ViewSlotsInventory : MonoBehaviour
 
 	public void UpdateSlots()
 	{
-		for(int i = 0; i < inventory.Items.Length; i++)
+		for(int i = 0; i < _inventory.Items.Length; i++)
 		{
-			if (inventory.Items[i] == null)
+			if (_inventory.Items[i] == null)
 			{
 				slots[i].Img.enabled = false;
 				slots[i].Name.text = "";
 			}
 			else
 			{
-				slots[i].Img.sprite = inventory.Items[i].SlotImg;
+				slots[i].Img.sprite = _inventory.Items[i].SlotImg;
 				slots[i].Img.enabled = true;
-				slots[i].Name.text = inventory.Items[i].SlotName;
+				slots[i].Name.text = _inventory.Items[i].SlotName;
 			}
 		}
 	}

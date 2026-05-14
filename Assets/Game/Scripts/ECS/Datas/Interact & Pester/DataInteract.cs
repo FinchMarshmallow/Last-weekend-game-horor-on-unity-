@@ -40,9 +40,12 @@ public class DataInteract : BaseData
 	public InteractState State;
 	public PesterByffer CurrentPester;
 
+	public string DescriptionOnAim;
+	public Sprite SpriteOnAim;
+
 	public List<IInteract> Interacts;
 
-	[NonReorderable] public Entity Entity;
+	[NonSerialized] public Entity Entity;
 
 	public override BaseData Copy()
 	{

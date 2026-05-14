@@ -28,7 +28,7 @@ public static class RealizationsPesterAndInteraction
 		if (!interactItem.Entity.TryGetDataByType(out DataInteractTkeible tkeibleItem))
 			return false;
 
-		if (!interactItem.Entity.TryGetDataByType(out interactItem))
+		if (!tkeibleItem.Entity.TryGetDataByType(out interactItem))
 			return false;
 
 		hand.IsFree = true;
@@ -144,32 +144,49 @@ public static class RealizationsPesterAndInteraction
 	public static bool Pester_TryTakeibleItemIntoHand_AutoSet(DataPester pester, DataPesterHand hand)
 	{
 		if (hand == null ||
-			!hand.IsFree ||
-			!hand.Point.Hit.transform.TryGetComponent(out Entity itemItentity) ||
-			!itemItentity.TryGetDataByType(out DataInteract interact) ||
-			!itemItentity.TryGetDataByType(out DataInteractTkeible item))
+			!hand.Point.IsContact ||
+			!hand.Point.Hit.transform.TryGetComponent(out Entity entityItemItentity) ||
+			!entityItemItentity.TryGetDataByType(out DataInteract interact))
 			return false;
 
-		int i = pester.GetIdInteractByffer(itemItentity);
 
-		if (i == -1 ||
-			i >= pester.Interacts.Count)
-			return false;
+		if (entityItemItentity.TryGetDataByType(out DataInteractTkeible item))
+		{
+			int i = pester.GetIdInteractByffer(entityItemItentity);
 
-		hand.Buffer = pester.Interacts[i];
+			if (i == -1 ||
+				i >= pester.Interacts.Count)
+				return false;
 
-		itemItentity.TryGetDataByType(out DataInteractWithItemInHand itemInteract);
+			hand.Buffer = pester.Interacts[i];
 
-		hand.IsFree = false;
-		hand.Item = item;
-		hand.ItemInterac = itemInteract;
+			entityItemItentity.TryGetDataByType(out DataInteractWithItemInHand itemInteract);
 
-		hand.Action.Invoke(hand.IdActionTake);
-		item.Action.Invoke(item.IdActionTake);
+			hand.IsFree = false;
+			hand.Item = item;
+			hand.ItemInterac = itemInteract;
 
-		Interact_SetStateInHand(pester, interact, item, hand);
+			hand.Action.Invoke(hand.IdActionTake);
+			item.Action.Invoke(item.IdActionTake);
 
-		return true;
+			Interact_SetStateInHand(pester, interact, item, hand);
+
+			Debug.Log($"hand: {hand}, IsContact: {hand.Point.IsContact}, itemItentity: {entityItemItentity}, interact: {interact}, item: {item}");
+			return true;
+		}
+		else if (entityItemItentity.TryGetDataByType(out DataInteractEnvironment environment))
+		{
+			environment.Action.Invoke(environment.CurrentState);
+			environment.CurrentState++;
+
+			if (environment.CurrentState > environment.MaxState)
+				environment.CurrentState = 0;
+
+			Debug.Log($"hand: {hand}, IsContact: {hand.Point.IsContact}, itemItentity: {entityItemItentity}, interact: {interact}, environment: {environment}");
+			return true;
+		}
+		
+		return false;
 	}
 
 	public static bool Pester_TryDropItemInHand_AutoSet(DataPester pester, DataPesterHand hand, bool isForce = false)

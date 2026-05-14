@@ -11,8 +11,8 @@ public class Entity : MonoBehaviour
 
 	private void Awake()
 	{
-		InitDatas();
 		TryGetComponent(out Rb);
+		InitDatas();
 	}
 
 	private void Start()

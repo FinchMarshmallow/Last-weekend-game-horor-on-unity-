@@ -51,7 +51,7 @@ public class DataPester : BaseData
 		IdActionIdActionInspectEnd;
 
 	public List<InteractByffer> Interacts;
-	[NonSerialized] public ProviderPester Provider;
+	public ProviderPester Provider;
 	public PesterCommand Command;
 	public float DropForce = 0f;
 
@@ -73,7 +73,6 @@ public class DataPester : BaseData
 
 	public override void Init(Entity entity)
 	{
-		entity.TryGetComponent(out Provider);
 		entity.TryGetComponent(out ActionProviderManager manager);
 		Action = manager.GetByName(nameActionProvider);
 	}

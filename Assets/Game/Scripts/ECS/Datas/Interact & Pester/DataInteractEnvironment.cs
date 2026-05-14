@@ -7,6 +7,8 @@ public class DataInteractEnvironment : BaseData, IInteract
 	[SerializeField] private string nameActionProvider;
 	[NonSerialized] public ActionProvider Action;
 	public int
+		IdActionSellect,
+		IdActionDeSellect,
 		MaxState,
 		CurrentState,
 		OffsetState  = 1;

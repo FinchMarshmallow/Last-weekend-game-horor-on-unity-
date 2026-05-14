@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class HandPoint : MonoBehaviour
@@ -6,24 +7,22 @@ public class HandPoint : MonoBehaviour
 	[SerializeField] private float radiysCast, distanceCust;
 	[SerializeField] private LayerMask layer;
 
-	private Vector3 _startHandPos;
+
 	private Quaternion _oldQuaternion;
 	private RaycastHit _hit;
 
+	public Action<bool> ActionContact;
+	public DataInteractEnvironment DataEnvironment;
+	public Entity Entity;
 	public Vector3 Pos => hand.position;
 	public Transform Content => hand;
 	public RaycastHit Hit => _hit;
-	public bool IsContact { get; private set; }
+	public bool IsContact;
 	public Vector3 CastPointNoContact => head.position + (head.forward * distanceCust);
 
 #if UNITY_EDITOR
 	[SerializeField] private Color gizmo;
 #endif
-
-	private void Awake()
-	{
-		_startHandPos = hand.localPosition;
-	}
 
 	private void Update()
 	{
@@ -32,21 +31,39 @@ public class HandPoint : MonoBehaviour
 
 		_oldQuaternion = head.rotation;
 
-		Ray ray = new(head.position + _startHandPos, hand.forward);
+		Ray ray = new(head.position, head.forward);
 
-		float distance = distanceCust;
 
 		if (Physics.SphereCast(ray, radiysCast, out _hit, distanceCust, layer, QueryTriggerInteraction.Ignore))
 		{
-			distance = _hit.distance;
+			ActionContact?.Invoke(true);
 			IsContact = true;
+			hand.position = _hit.point;
+
+			if (_hit.transform.TryGetComponent(out Entity) &&
+				Entity.TryGetDataByType(out DataEnvironment))
+			{
+				DataEnvironment.Action.Invoke(DataEnvironment.IdActionSellect);
+			}
 		}
-		else
+		else if (IsContact)
 		{
+			ActionContact?.Invoke(false);
 			IsContact = false;
+
+			if (Entity != null &&
+				DataEnvironment != null)
+			{
+				DataEnvironment.Action.Invoke(DataEnvironment.IdActionDeSellect);
+				Entity = null;
+				DataEnvironment = null;
+			}
 		}
 
-		hand.localPosition = _startHandPos + (head.forward * distance);
+		if (!IsContact)
+		{
+			hand.position = (head.position + (head.forward * distanceCust));
+		}
 	}
 
 
@@ -58,7 +75,7 @@ public class HandPoint : MonoBehaviour
 
 		Gizmos.color = gizmo;
 		Vector3
-			originCast = head.position + _startHandPos,
+			originCast = head.position,
 			pointCast;
 
 		if (!IsContact)
@@ -71,7 +88,7 @@ public class HandPoint : MonoBehaviour
 		}
 
 		Gizmos.DrawSphere(pointCast, radiysCast);
-		Gizmos.DrawLine(pointCast, head.position + _startHandPos);
+		Gizmos.DrawLine(pointCast, head.position);
 	}
 #endif
 }

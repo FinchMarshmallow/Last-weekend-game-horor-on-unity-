@@ -101,8 +101,8 @@ public class SystemPlayerInput : BaseSystem, IUpdate, ILateUpdate
 		_forceDrop = 0f;
 		PesterCommand command = PesterCommand.None;
 
-		if (Input.GetKey(ConfigKeyCode.Current.InteractOrTake)) command = PesterCommand.TakeInteract;
-		if (Input.GetKey(ConfigKeyCode.Current.Inspect)) command = PesterCommand.InspectSwitchState;
+		if (Input.GetKeyDown(ConfigKeyCode.Current.Interact)) command = PesterCommand.TakeInteract;
+		//if (Input.GetKey(ConfigKeyCode.Current.Inspect)) command = PesterCommand.InspectSwitchState;
 
 		if (Input.GetKey(ConfigKeyCode.Current.Drop)) _timePressDropKey += Time.deltaTime;
 		else if (Input.GetKeyUp(ConfigKeyCode.Current.Drop))

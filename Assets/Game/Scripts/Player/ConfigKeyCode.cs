@@ -12,10 +12,10 @@ public struct KeysCodes
 		Jump,
 		Pause,
 
-		InteractOrTake,
+		Interact,
 		Drop,
 		Inspect,
-		PutIntoInventory;
+		Inventory;
 
 	public Vector2 SentityMause;
 
@@ -37,9 +37,9 @@ public static class ConfigKeyCode
 		Default.Jump = KeyCode.Space;
 		Default.Pause = KeyCode.Escape;
 
-		Default.InteractOrTake = KeyCode.E;
+		Default.Interact = KeyCode.E;
 		Default.Drop = KeyCode.Q;
-		Default.Inspect = KeyCode.Tab;
+		Default.Inventory = KeyCode.Tab;
 
 		Default.SentityMause = Vector2.one * 0.5f;
 

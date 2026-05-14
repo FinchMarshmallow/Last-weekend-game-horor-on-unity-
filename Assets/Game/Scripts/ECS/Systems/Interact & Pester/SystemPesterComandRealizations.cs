@@ -24,6 +24,8 @@ public class SystemPesterComandRealizations : BaseSystem, IUpdate
 		{
 			if (_pesters[i].Command == PesterCommand.None)
 				continue;
+		
+			Debug.Log($"{i}, {_pesters[i].Command}");
 
 			switch (_pesters[i].Command)
 			{
