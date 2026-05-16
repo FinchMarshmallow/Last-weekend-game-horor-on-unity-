@@ -46,7 +46,7 @@ public class SystemPesterComandRealizations : BaseSystem, IUpdate
 
 				case PesterCommand.Drop:
 
-					RealizationsPesterAndInteraction.Pester_TryDropItemInHand_AutoSet(_pesters[i], _hands[i]);
+					RealizationsPesterAndInteraction.Pester_TryDropItemInHand_AutoSet(_pesters[i], _hands[i], false);
 					_pesters[i].Command = PesterCommand.None;
 
 					break;

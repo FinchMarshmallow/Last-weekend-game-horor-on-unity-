@@ -33,6 +33,8 @@ public class HandPoint : MonoBehaviour
 
 		Ray ray = new(head.position, head.forward);
 
+		hand.forward = head.forward;
+
 
 		if (Physics.SphereCast(ray, radiysCast, out _hit, distanceCust, layer, QueryTriggerInteraction.Ignore))
 		{

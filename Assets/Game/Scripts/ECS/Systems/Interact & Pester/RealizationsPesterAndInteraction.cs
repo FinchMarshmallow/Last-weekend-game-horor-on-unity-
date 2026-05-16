@@ -150,28 +150,30 @@ public static class RealizationsPesterAndInteraction
 			return false;
 
 
-		if (entityItemItentity.TryGetDataByType(out DataInteractTkeible item))
+		if (entityItemItentity.TryGetDataByType(out DataInteractTkeible itemTkeible))
 		{
-			int i = pester.GetIdInteractByffer(entityItemItentity);
-
-			if (i == -1 ||
-				i >= pester.Interacts.Count)
-				return false;
-
-			hand.Buffer = pester.Interacts[i];
-
 			entityItemItentity.TryGetDataByType(out DataInteractWithItemInHand itemInteract);
+		
+			InteractByffer byffer = new();
 
+			byffer.Entity = entityItemItentity;
+			byffer.Provider = interact.Provider;
+			byffer.Data = interact;
+			byffer.State = InteractState.InHand;
+
+			pester.Interacts.Add(byffer);
+
+			hand.Buffer = byffer;
 			hand.IsFree = false;
-			hand.Item = item;
+			hand.Item = itemTkeible;
 			hand.ItemInterac = itemInteract;
 
 			hand.Action.Invoke(hand.IdActionTake);
-			item.Action.Invoke(item.IdActionTake);
+			itemTkeible.Action.Invoke(itemTkeible.IdActionTake);
 
-			Interact_SetStateInHand(pester, interact, item, hand);
+			Interact_SetStateInHand(pester, interact, itemTkeible, hand);
 
-			Debug.Log($"hand: {hand}, IsContact: {hand.Point.IsContact}, itemItentity: {entityItemItentity}, interact: {interact}, item: {item}");
+			Debug.Log($"hand: {hand}, IsContact: {hand.Point.IsContact}, itemItentity: {entityItemItentity}, interact: {interact}, item: {itemTkeible}");
 			return true;
 		}
 		else if (entityItemItentity.TryGetDataByType(out DataInteractEnvironment environment))
@@ -189,7 +191,7 @@ public static class RealizationsPesterAndInteraction
 		return false;
 	}
 
-	public static bool Pester_TryDropItemInHand_AutoSet(DataPester pester, DataPesterHand hand, bool isForce = false)
+	public static bool Pester_TryDropItemInHand_AutoSet(DataPester pester, DataPesterHand hand, bool isForce)
 	{
 		if (hand == null ||
 			hand.IsFree ||
@@ -305,8 +307,8 @@ public static class RealizationsPesterAndInteraction
 		if (interactId == -1 || interactId >= pester.Interacts.Count)
 			return;
 
-		item.WorldObject.gameObject.SetActive(true);
-		item.WorldObject.SetParent(null);
+		item.WorldObject.transform.localPosition = Vector3.zero;
+
 
 		if (hand.Point.IsContact)
 		{
@@ -320,9 +322,11 @@ public static class RealizationsPesterAndInteraction
 			item.WorldObject.position = hand.Point.CastPointNoContact;
 		}
 
-		InteractByffer byffer = pester.Interacts[interactId];
-		byffer.State = InteractState.None;
-		pester.Interacts[interactId] = byffer;
+		pester.Interacts.RemoveAt(interactId);
+
+		item.WorldObject.gameObject.SetActive(true);
+		item.WorldObject.SetParent(null);
+
 		interact.Entity.Rb.isKinematic = false;
 	}
 

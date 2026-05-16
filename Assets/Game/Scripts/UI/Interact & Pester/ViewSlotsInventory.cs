@@ -30,10 +30,11 @@ public class ViewSlotsInventory : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.1f);
 
+		entity.TryGetDataByType(out _inventory);
+
 		if (_inventory.Items.Length != slots.Count)
 			Debug.LogError($"ViewSlotsInventory: Start: inventory.Items.Length ({_inventory.Items.Length}) != slots.Count ({slots.Count})");
 
-		entity.TryGetDataByType(out _inventory);
 
 
 		for (int i = 0; i < slots.Count; i++)
